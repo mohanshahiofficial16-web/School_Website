@@ -1,0 +1,130 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Events | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="events-page">
+    <section class="events-header">
+        <h1 style="text-align: center;">School Events</h1>
+        <div class="events-filter">
+            <form method="get" class="filter-form">
+                <div class="filter-group">
+                    <label for="timeframe">Timeframe:</label>
+                    <select name="timeframe" id="timeframe" class="form-select">
+                        <option value="upcoming" {% if current_timeframe == 'upcoming' %}selected{% endif %}>Upcoming Events</option>
+                        <option value="past" {% if current_timeframe == 'past' %}selected{% endif %}>Past Events</option>
+                        <option value="all">All Events</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="type">Event Type:</label>
+                    <select name="type" id="type" class="form-select">
+                        <option value="">All Types</option>
+                        <option value="academic" {% if current_type == 'academic' %}selected{% endif %}>Academic</option>
+                        <option value="sports" {% if current_type == 'sports' %}selected{% endif %}>Sports</option>
+                        <option value="cultural" {% if current_type == 'cultural' %}selected{% endif %}>Cultural</option>
+                        <option value="holiday" {% if current_type == 'holiday' %}selected{% endif %}>Holiday</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="month">Month:</label>
+                    <select name="month" id="month" class="form-select">
+                        <option value="">All Months</option>
+                        {% for month in months %}
+                        <option value="{{ month.num }}" {% if current_month == month.num|stringformat:"s" %}selected{% endif %}>
+                            {{ month.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-filter">Apply Filters</button>
+                {% if current_type or current_month or current_timeframe != 'upcoming' %}
+                <a href="{% url 'events' %}" class="btn btn-clear">Clear Filters</a>
+                {% endif %}
+            </form>
+        </div>
+        
+    </section>
+
+    <section class="events-list">
+        {% if events %}
+            <div class="events-container">
+                {% for event in events %}
+                <article class="event-card {% if event.is_past %}past-event{% endif %}">
+                    <div class="event-date">
+                        <span class="month">{{ event.start_date|date:"M" }}</span>
+                        <span class="day">{{ event.start_date|date:"d" }}</span>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-header">
+                            <h2>{{ event.title }}</h2>
+                            <span class="event-type {{ event.event_type }}">{{ event.get_event_type_display }}</span>
+                        </div>
+                        <div class="event-meta">
+                            <p class="event-time">
+                                <i class="far fa-clock"></i>
+                                {{ event.start_date|time }} - {{ event.end_date|time }}
+                            </p>
+                            <p class="event-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                {{ event.location }}
+                            </p>
+                        </div>
+                        <div class="event-description">
+                            <p>{{ event.description|truncatewords:20 }}</p>
+                        </div>
+                        <div class="event-actions">
+                            <a href="{% url 'event-detail' event.pk %}" class="btn btn-details">View Details</a>
+                            {% if not event.is_past %}
+                            <a href="#" class="btn btn-rsvp">RSVP</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if current_type %}&type={{ current_type }}{% endif %}{% if current_month %}&month={{ current_month }}{% endif %}{% if current_timeframe != 'upcoming' %}&timeframe={{ current_timeframe }}{% endif %}" class="page-link">
+                    &laquo; Previous
+                </a>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <span class="current-page">{{ num }}</span>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}{% if current_type %}&type={{ current_type }}{% endif %}{% if current_month %}&month={{ current_month }}{% endif %}{% if current_timeframe != 'upcoming' %}&timeframe={{ current_timeframe }}{% endif %}" class="page-link">
+                    {{ num }}
+                </a>
+                {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if current_type %}&type={{ current_type }}{% endif %}{% if current_month %}&month={{ current_month }}{% endif %}{% if current_timeframe != 'upcoming' %}&timeframe={{ current_timeframe }}{% endif %}" class="page-link">
+                    Next &raquo;
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        {% else %}
+            <div class="no-events">
+                <p>No events found matching your criteria.</p>
+                <a href="{% url 'events' %}" class="btn btn-primary">View All Events</a>
+            </div>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/events.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'main/js/events.js' %}"></script>
+{% endblock %}

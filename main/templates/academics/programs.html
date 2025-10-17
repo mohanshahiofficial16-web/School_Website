@@ -1,0 +1,49 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Programs | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="programs-page">
+
+    <!-- Hero Section -->
+    <section class="programs-hero">
+        <div class="hero-content">
+            <h1>Our Academic & Special Programs</h1>
+            <p class="subtitle">Explore the diverse programs offered at {{ school_info.name }}</p>
+        </div>
+    </section>
+
+    <!-- Programs List -->
+    <section class="programs-list">
+        <div class="container">
+            <h2>Our Programs</h2>
+            <p class="section-description">We offer a variety of programs to enhance learning, creativity, and skills.</p>
+
+            <div class="programs-grid">
+                {% for program in programs %}
+                <div class="program-card">
+                    {% if program.icon %}
+                    <div class="program-icon">
+                        <img src="{{ program.icon.url }}" alt="{{ program.title }}">
+                    </div>
+                    {% endif %}
+                    <div class="program-content">
+                        <h3>{{ program.title }}</h3>
+                        <p>{{ program.description|linebreaks }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No programs available at the moment.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/programs.css' %}">
+<script src="{% static 'main/js/programs.js' %}"></script>
+{% endblock %}

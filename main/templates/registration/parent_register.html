@@ -1,0 +1,180 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Parent Registration - {{ school_info.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/auth.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'main/js/auth.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-user-friends"></i>
+            <span class="logo-text">Academia University</span>
+        </div>
+        <p>Parent Registration Portal</p>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-step completed">1</div>
+        <div class="progress-step active">2</div>
+        <div class="progress-step">3</div>
+    </div>
+
+    <div class="auth-form">
+        <h2>Create Parent Account</h2>
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Account Information -->
+            <div class="form-section">
+                <h3><i class="fas fa-user-circle"></i> Account Information</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_email" class="required">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            {{ user_form.email }}
+                        </div>
+                        {% if user_form.email.errors %}
+                        <div class="form-error"><i class="fas fa-exclamation-circle"></i>
+                            {{ user_form.email.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_username" class="required">Username</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            {{ user_form.username }}
+                        </div>
+                        {% if user_form.username.errors %}
+                        <div class="form-error"><i class="fas fa-exclamation-circle"></i>
+                            {{ user_form.username.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!-- FIXED: Use correct IDs for password fields -->
+                    <div class="form-group">
+                        <label for="id_password1" class="required">Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            {{ user_form.password1 }}
+                            <span class="password-toggle" data-field-id="id_password1">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="password-strength-bar"></div>
+                        </div>
+                        <div class="password-rules">
+                            <p>Password must contain at least 8 characters, including uppercase, lowercase, numbers, and
+                                special characters.</p>
+                        </div>
+                        {% if user_form.password1.errors %}
+                        <div class="form-error"><i class="fas fa-exclamation-circle"></i>
+                            {{ user_form.password1.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_password2" class="required">Confirm Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            {{ user_form.password2 }}
+                            <span class="password-toggle" data-field-id="id_password2">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        {% if user_form.password2.errors %}
+                        <div class="form-error"><i class="fas fa-exclamation-circle"></i>
+                            {{ user_form.password2.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- Parent Information -->
+    <div class="form-section">
+        <h3><i class="fas fa-id-card"></i> Parent Information</h3>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="id_first_name" class="required">First Name</label>
+                {{ parent_form.first_name }}
+                {% if parent_form.first_name.errors %}
+                <div class="form-error"><i class="fas fa-exclamation-circle"></i>
+                    {{ parent_form.first_name.errors.0 }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_last_name" class="required">Last Name</label>
+                {{ parent_form.last_name }}
+                {% if parent_form.last_name.errors %}
+                <div class="form-error"><i class="fas fa-exclamation-circle"></i>
+                    {{ parent_form.last_name.errors.0 }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_phone" class="required">Phone</label>
+            <div class="input-with-icon">
+                <i class="fas fa-phone"></i>
+                <div class="phone-input">
+                    <select name="country_code" id="id_country_code">
+                        <option value="+977" selected>Nepal (+977)</option>
+                        <option value="+1">USA (+1)</option>
+                        <option value="+91">India (+91)</option>
+                        <!-- Add more countries -->
+                    </select>
+                    {{ parent_form.phone }}
+                </div>
+            </div>
+            {% if parent_form.phone.errors %}
+            <div class="form-error"><i class="fas fa-exclamation-circle"></i>
+                {{ parent_form.phone.errors.0 }}
+            </div>
+            {% endif %}
+        </div>
+
+
+        <div class="form-row">
+            <div class="form-group full-width">
+                <label for="id_address" class="required">Address</label>
+                {{ parent_form.address }}
+                {% if parent_form.address.errors %}
+                <div class="form-error"><i class="fas fa-exclamation-circle"></i>
+                    {{ parent_form.address.errors.0 }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn-primary">
+        <i class="fas fa-user-plus"></i> Complete Registration
+    </button>
+
+    <div class="auth-links">
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </div>
+    </form>
+</div>
+</div>
+{% endblock %}

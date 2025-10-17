@@ -1,0 +1,36 @@
+<!-- templates/registration/register.html -->
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Register - {{ school_info.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-form">
+        <h2>Create Account</h2>
+        <p>Select your registration type:</p>
+        
+        <div class="registration-options">
+            <div class="registration-option">
+                <h3>Student Registration</h3>
+                <p>Register as a student to access your academic information.</p>
+                <a href="{% url 'student_register' %}" class="btn btn-primary">Register as Student</a>
+            </div>
+            
+            <div class="registration-option">
+                <h3>Parent Registration</h3>
+                <p>Register as a parent to monitor your child's progress.</p>
+                <a href="{% url 'parent_register' %}" class="btn btn-primary">Register as Parent</a>
+            </div>
+        </div>
+        
+        <div class="auth-links">
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

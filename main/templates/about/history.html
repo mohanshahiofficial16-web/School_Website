@@ -1,0 +1,69 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Our History | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="history-page">
+    <section class="history-hero">
+        <div class="hero-content">
+            <h1>Our History</h1>
+            <p>The story of {{ school_info.name }} through the years</p>
+        </div>
+    </section>
+
+    <section class="history-content">
+        <div class="container">
+            <div class="history-intro">
+                <h2>From Humble Beginnings</h2>
+                <p>{{ school_info.history_intro|default:"Our school has a rich history of educational excellence."|linebreaks }}</p>
+            </div>
+
+            <div class="timeline-full">
+                {% for era in school_info.history_eras.all %}
+                <div class="timeline-era">
+                    <div class="era-header">
+                        <h3>{{ era.title }}</h3>
+                        <span class="era-years">{{ era.start_year }} - {{ era.end_year|default:"Present" }}</span>
+                    </div>
+                    <div class="era-content">
+                        {% if era.image %}
+                        <div class="era-image">
+                            <img src="{{ era.image.url }}" alt="{{ era.title }}">
+                        </div>
+                        {% endif %}
+                        <div class="era-text">
+                            {{ era.description|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="no-history">
+                    <p>Our detailed history is currently being prepared. Check back soon!</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="historical-photos">
+                <h2>Through the Years</h2>
+                <div class="photo-gallery">
+                    {% for photo in school_info.history_photos.all %}
+                    <div class="photo-item">
+                        <img src="{{ photo.image.url }}" alt="Historical photo from {{ photo.year }}">
+                        <div class="photo-caption">{{ photo.caption }} ({{ photo.year }})</div>
+                    </div>
+                    {% empty %}
+                    <div class="no-photos">
+                        <p>Historical photos coming soon!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/history.css' %}">
+{% endblock %}

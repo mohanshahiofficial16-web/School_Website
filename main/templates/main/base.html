@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ school_info.name }}{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'main/images/favicon.ico' %}">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/home.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    {% block extra_css %}
+    <!-- Additional CSS for child templates -->
+    {% endblock %}
+</head>
+
+<body>
+    <!-- Skip to Content Link (Accessibility) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo-container">
+                <a href="{% url 'home' %}">
+                    <img src="{{ school_info.logo.url }}" alt="{{ school_info.name }} Logo" class="logo">
+                </a>
+                <div class="school-info">
+                    <h1>{{ school_info.name }}</h1>
+                    <p>{{ school_info.motto }}</p>
+                </div>
+            </div>
+
+            <!-- Quick Contact Info -->
+            <div class="quick-contact">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>{{ school_info.phone }}</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>{{ school_info.email }}</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="nav-overlay"></div>
+
+        <ul class="nav-menu">
+            <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+
+            <!-- About with dropdown -->
+            <li class="dropdown">
+                <a href="{% url 'about' %}" class="nav-link">About</a>
+                <span class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-chevron-down"></i>
+                </span>
+                <ul class="dropdown-menu" aria-label="About submenu">
+                    <li><a href="{% url 'mission' %}">Mission & Vision</a></li>
+                    <li><a href="{% url 'history' %}">History</a></li>
+                    <li><a href="{% url 'staff-list' %}">Our Staff</a></li>
+                    <li><a href="{% url 'facilities' %}">Facilities</a></li>
+                </ul>
+            </li>
+
+            <!-- Academics with dropdown -->
+            <li class="dropdown">
+                <a href="{% url 'academics' %}" class="nav-link">Academics</a>
+                <span class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-chevron-down"></i>
+                </span>
+                <ul class="dropdown-menu" aria-label="Academics submenu">
+                    <li><a href="{% url 'curriculum' %}">Curriculum</a></li>
+                    <li><a href="{% url 'subjects' %}">Subjects</a></li>
+                    <li><a href="{% url 'programs' %}">Special Programs</a></li>
+                    <li><a href="{% url 'admissions' %}">Admissions</a></li>
+                </ul>
+            </li>
+
+            <li><a href="{% url 'events' %}" class="nav-link">Events</a></li>
+            <li><a href="{% url 'gallery' %}" class="nav-link">Gallery</a></li>
+            <li><a href="{% url 'news' %}" class="nav-link">News</a></li>
+            <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+
+            <!-- Authentication Links -->
+            {% if user.is_authenticated %}
+            <li class="dropdown auth-link">
+                <a href="#" class="nav-link">My Account</a>
+                <span class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-chevron-down"></i>
+                </span>
+                <ul class="dropdown-menu">
+                    {% if user.is_staff %}
+                    <li><a href="{% url 'admin:index' %}">Admin Panel</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </li>
+            {% else %}
+            <li class="auth-link"><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+            <li class="auth-link"><a href="{% url 'register' %}" class="nav-link">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+        <!-- Messages/Alerts -->
+        {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+                <button class="close-btn" aria-label="Close message">&times;</button>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+
+
+        {% endif %}
+
+
+
+        {% block content %}
+        <!-- Content will be injected here by child templates -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="{% url 'academics' %}">Academics</a></li>
+                    <li><a href="{% url 'events' %}">Calendar</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <address>
+                    {{ school_info.address }}<br>
+                    Phone: {{ school_info.phone }}<br>
+                    Email: <a href="mailto:{{ school_info.email }}">{{ school_info.email }}</a>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="newsletter">
+                    <p>Subscribe to our newsletter</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; {% now "Y" %} {{ school_info.name }}. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="">Privacy Policy</a>
+                <a href="">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Floating Action Button -->
+    <a href="{% url 'contact' %}" class="fab" aria-label="Contact us">
+        <i class="fas fa-comment"></i>
+    </a>
+
+    <!-- JavaScript -->
+    <script src="{% static 'main/js/main.js' %}"></script>
+
+    {% block extra_js %}
+    <!-- Additional JS for child templates -->
+    {% endblock %}
+</body>
+
+</html>

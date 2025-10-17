@@ -1,0 +1,48 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{{ news.title }} | {{ school_info.name }}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/news.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="news-detail-container">
+    <div class="news-detail-main">
+        <article class="news-detail-article">
+            <header class="news-detail-header">
+                <h1>{{ news.title }}</h1>
+                <div class="news-detail-meta">
+                    <span class="news-detail-date">{{ news.date_posted|date:"F d, Y" }}</span>
+                    <span class="news-detail-author">by {{ news.author }}</span>
+                </div>
+            </header>
+            
+            {% if news.featured_image %}
+            <figure class="news-detail-image">
+                <img src="{{ news.featured_image.url }}" alt="{{ news.title }}">
+            </figure>
+            {% endif %}
+            
+            <div class="news-detail-content">
+                {{ news.content|linebreaks }}
+            </div>
+            
+            <a href="{% url 'news' %}" class="news-back-button">Back to News</a>
+        </article>
+    </div>
+    
+    <aside class="news-sidebar">
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">Recent News</h3>
+            <ul class="recent-news-list">
+                {% for recent_news in recent_news_list %}
+                <li class="recent-news-item">
+                    <a href="{% url 'news-detail' recent_news.pk %}">{{ recent_news.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+</div>
+{% endblock %}

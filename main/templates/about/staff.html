@@ -1,0 +1,90 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Our Staff | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="staff-page">
+    <section class="staff-hero">
+        <div class="hero-content">
+            <h1>Meet Our Staff</h1>
+            <p>The dedicated professionals who make {{ school_info.name }} special</p>
+        </div>
+    </section>
+
+    <section class="staff-content">
+        <div class="container">
+            <div class="staff-filter">
+                <form method="get" class="filter-form">
+                    <div class="form-group">
+                        <label for="department">Filter by Department:</label>
+                        <select name="department" id="department" class="form-select">
+                            <option value="">All Departments</option>
+                            <option value="management" {% if current_department == 'management' %}selected{% endif %}>Management</option>
+                            <option value="teaching" {% if current_department == 'teaching' %}selected{% endif %}>Teaching Staff</option>
+                            <option value="support" {% if current_department == 'support' %}selected{% endif %}>Support Staff</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-filter">Apply Filter</button>
+                    {% if current_department %}
+                    <a href="{% url 'staff-list' %}" class="btn btn-clear">Clear Filter</a>
+                    {% endif %}
+                </form>
+            </div>
+
+            <div class="staff-grid">
+                {% for staff in staff_members %}
+                <div class="staff-card">
+                    <div class="staff-photo">
+                        <img src="{{ staff.photo.url }}" alt="{{ staff.full_name }}">
+                    </div>
+                    <div class="staff-info">
+                        <h3>{{ staff.full_name }}</h3>
+                        <p class="position">{{ staff.position }}</p>
+                        <p class="department">{{ staff.get_department_display }}</p>
+                        <div class="staff-bio">
+                            {{ staff.bio|truncatewords:15 }}
+                        </div>
+                        <a href="#" class="btn btn-profile">View Profile</a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="no-staff">
+                    <p>No staff members found matching your criteria.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if is_paginated %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if current_department %}&department={{ current_department }}{% endif %}" class="page-link">
+                    &laquo; Previous
+                </a>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <span class="current-page">{{ num }}</span>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}{% if current_department %}&department={{ current_department }}{% endif %}" class="page-link">
+                    {{ num }}
+                </a>
+                {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if current_department %}&department={{ current_department }}{% endif %}" class="page-link">
+                    Next &raquo;
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/staff.css' %}">
+{% endblock %}

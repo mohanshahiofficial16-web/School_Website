@@ -1,0 +1,138 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}About Us | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="about-page">
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="hero-content">
+            <h1>About Our School</h1>
+            <p class="subtitle">Discover the story behind {{ school_info.name }}</p>
+        </div>
+    </section>
+
+   <!-- Quick Facts -->
+<section class="quick-facts">
+    <div class="container">
+        <div class="fact-card">
+            <i class="fas fa-calendar-alt"></i>
+            <h3>Established</h3>
+            <p><span class="counter" data-target="{{ school_info.established_date|date:'Y' }}">0</span></p>
+        </div>
+        <div class="fact-card">
+            <i class="fas fa-user-graduate"></i>
+            <h3>Students</h3>
+            <p><span class="counter" data-target="1200">0</span>+</p>
+        </div>
+        <div class="fact-card">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h3>Staff</h3>
+            <p><span class="counter" data-target="80">0</span>+</p>
+        </div>
+        <div class="fact-card">
+            <i class="fas fa-building"></i>
+            <h3>Campus</h3>
+            <p><span class="counter" data-target="{{ school_info.campus_size|default:'10' }}">0</span> acre</p>
+        </div>
+    </div>
+</section>
+
+
+    <!-- School Introduction -->
+    <section class="school-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>Welcome to {{ school_info.name }}</h2>
+                <div class="intro-text">
+                    {{ school_info.about|linebreaks }}
+                </div>
+                <a href="{% url 'mission' %}" class="btn btn-primary">Our Mission</a>
+            </div>
+            <div class="intro-image">
+                <img src="{% static 'main/images/school-campus.jpg' %}" alt="{{ school_info.name }} Campus">
+            </div>
+        </div>
+    </section>
+
+    <!-- Management Team -->
+    <section class="management-team">
+        <div class="container">
+            <h2>Our Leadership Team</h2>
+            <p class="section-description">Meet the dedicated professionals guiding our school</p>
+            
+            <div class="team-grid">
+                {% for member in management_team %}
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="{{ member.photo.url }}" alt="{{ member.full_name }}">
+                    </div>
+                    <div class="member-info">
+                        <h3>{{ member.full_name }}</h3>
+                        <p class="position">{{ member.position }}</p>
+                        <div class="member-bio">
+                            {{ member.bio|truncatewords:20 }}
+                        </div>
+                        <a href="{% url 'staff-list' %}?department=management" class="view-profile">View Profile</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="section-actions">
+                <a href="{% url 'staff-list' %}" class="btn btn-secondary">View All Staff</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- School History Highlights -->
+    <section class="history-highlights">
+        <div class="container">
+            <h2>Our Journey</h2>
+            <p class="section-description">Key milestones in our school's history</p>
+            
+            <div class="timeline">
+                <div class="timeline-event">
+                    <div class="event-date">{{ school_info.established_date|date:"Y" }}</div>
+                    <div class="event-content">
+                        <h3>School Founded</h3>
+                        <p>{{ school_info.name }} was established with a vision to provide quality education.</p>
+                    </div>
+                </div>
+                <div class="timeline-event">
+                    <div class="event-date">2005</div>
+                    <div class="event-content">
+                        <h3>New Campus Built</h3>
+                        <p>Moved to our current location with state-of-the-art facilities.</p>
+                    </div>
+                </div>
+                <div class="timeline-event">
+                    <div class="event-date">2012</div>
+                    <div class="event-content">
+                        <h3>Accreditation Achieved</h3>
+                        <p>Received national accreditation for academic excellence.</p>
+                    </div>
+                </div>
+                <div class="timeline-event">
+                    <div class="event-date">Present</div>
+                    <div class="event-content">
+                        <h3>Continuing Excellence</h3>
+                        <p>Consistently ranked among the top schools in the region.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-actions">
+                <a href="{% url 'history' %}" class="btn btn-primary">Full History</a>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/about.css' %}">
+<script src="{% static 'main/js/about.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Mission & Vision | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="mission-page">
+    <section class="mission-hero">
+        <div class="hero-content">
+            <h1>Our Mission & Vision</h1>
+            <p>The guiding principles of {{ school_info.name }}</p>
+        </div>
+    </section>
+
+    <section class="mission-content">
+        <div class="container">
+            <article class="mission-statement">
+                <h2>Our Mission</h2>
+                <div class="statement-content">
+                    {{ school_info.mission|linebreaks }}
+                </div>
+            </article>
+
+            <article class="vision-statement">
+                <h2>Our Vision</h2>
+                <div class="statement-content">
+                    {{ school_info.vision|linebreaks }}
+                </div>
+            </article>
+
+            <article class="core-values">
+                <h2>Core Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Excellence</h3>
+                        <p>Striving for the highest standards in all we do</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Community</h3>
+                        <p>Building strong relationships and teamwork</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Innovation</h3>
+                        <p>Embracing creativity and new ideas</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <h3>Integrity</h3>
+                        <p>Acting with honesty and ethical principles</p>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/mission.css' %}">
+{% endblock %}

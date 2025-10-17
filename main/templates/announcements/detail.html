@@ -1,0 +1,68 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{{ announcement.title }} | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="announcement-detail-page">
+    <article class="announcement-full">
+        <div class="announcement-header">
+            <div class="announcement-meta">
+                <span class="date">{{ announcement.date_posted|date:"F j, Y" }}</span>
+                <span class="audience {{ announcement.target_audience }}">
+                    {{ announcement.get_target_audience_display }}
+                </span>
+                {% if announcement.important %}
+                <span class="badge important">Important</span>
+                {% endif %}
+            </div>
+            <h1>{{ announcement.title }}</h1>
+            <div class="author-info">
+                {% if announcement.author.staff %}
+                <img src="{{ announcement.author.staff.photo.url }}" alt="{{ announcement.author.get_full_name }}" class="author-photo">
+                {% endif %}
+                <div class="author-details">
+                    <span class="author-name">{{ announcement.author.get_full_name }}</span>
+                    {% if announcement.author.staff %}
+                    <span class="author-position">{{ announcement.author.staff.position }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="announcement-content">
+            {{ announcement.content|linebreaks }}
+        </div>
+
+        {% if announcement.attachments.all %}
+        <div class="announcement-attachments">
+            <h3>Attachments</h3>
+            <ul class="attachments-list">
+                {% for attachment in announcement.attachments.all %}
+                <li>
+                    <a href="{{ attachment.file.url }}" target="_blank" class="attachment-link">
+                        <i class="fas fa-file-{{ attachment.get_file_type_icon }}"></i>
+                        {{ attachment.filename }}
+                        <span class="file-size">({{ attachment.file.size|filesizeformat }})</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="announcement-actions">
+            <a href="{% url 'announcements' %}" class="btn btn-back">Back to Announcements</a>
+            {% if announcement.author == user or user.is_superuser %}
+            <div class="admin-actions">
+                <a href="{% url 'admin:main_announcement_change' announcement.pk %}" class="btn btn-edit">Edit Announcement</a>
+            </div>
+            {% endif %}
+        </div>
+    </article>
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/announcements.css' %}">
+{% endblock %}

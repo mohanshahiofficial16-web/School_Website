@@ -1,0 +1,188 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{{ event.title }} | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="event-detail-page">
+    <article class="event-full">
+        <div class="event-header">
+            <div class="event-meta">
+                <span class="event-type {{ event.event_type }}">{{ event.get_event_type_display }}</span>
+                <span class="event-date">{{ event.start_date|date:"F j, Y" }}</span>
+                {% if event.is_past %}
+                <span class="badge past">Past Event</span>
+                {% else %}
+                <span class="badge upcoming">Upcoming</span>
+                {% endif %}
+            </div>
+            <h1>{{ event.title }}</h1>
+            {% if event.organizer %}
+            <div class="organizer-info">
+                <span>Organized by:</span>
+                <div class="organizer">
+                    {% if event.organizer.photo %}
+                    <img src="{{ event.organizer.photo.url }}" alt="{{ event.organizer.full_name }}" class="organizer-photo">
+                    {% endif %}
+                    <div class="organizer-details">
+                        <span class="organizer-name">{{ event.organizer.full_name }}</span>
+                        <span class="organizer-position">{{ event.organizer.position }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="event-content">
+            <div class="event-details">
+                <div class="detail-item">
+                    <i class="far fa-calendar-alt"></i>
+                    <div>
+                        <h3>Date & Time</h3>
+                        <p>{{ event.start_date|date:"l, F j, Y" }}</p>
+                        <p>{{ event.start_date|time }} - {{ event.end_date|time }}</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h3>Location</h3>
+                        <p>{{ event.location }}</p>
+                        {% if event.location_notes %}
+                        <p class="location-notes">{{ event.location_notes }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if event.participants.all %}
+                <div class="detail-item">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3>Participants</h3>
+                        <div class="participants-list">
+                            {% for participant in event.participants.all %}
+                            <div class="participant">
+                                {% if participant.photo %}
+                                <img src="{{ participant.photo.url }}" alt="{{ participant.full_name }}" class="participant-photo">
+                                {% else %}
+                                <div class="participant-photo placeholder">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                {% endif %}
+                                <span class="participant-name">{{ participant.full_name }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="event-description">
+                <h2>Event Description</h2>
+                <div class="description-content">
+                    {{ event.description|linebreaks }}
+                </div>
+                
+                {% if event.attachments.all %}
+                <div class="event-attachments">
+                    <h3>Attachments</h3>
+                    <ul class="attachments-list">
+                        {% for attachment in event.attachments.all %}
+                        <li>
+                            <a href="{{ attachment.file.url }}" target="_blank" class="attachment-link">
+                                <i class="fas fa-file-{{ attachment.get_file_type_icon }}"></i>
+                                {{ attachment.filename }}
+                                <span class="file-size">({{ attachment.file.size|filesizeformat }})</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="event-actions">
+            {% if not event.is_past %}
+            <div class="rsvp-section">
+                <h3>Attend This Event</h3>
+                <form method="post" class="rsvp-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_name">Your Name</label>
+                        <input type="text" id="id_name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_email">Email</label>
+                        <input type="email" id="id_email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_guests">Number of Guests</label>
+                        <select id="id_guests" name="guests">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-rsvp">Confirm Attendance</button>
+                </form>
+            </div>
+            {% endif %}
+
+            <div class="share-section">
+                <h3>Share This Event</h3>
+                <div class="share-buttons">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="share-btn facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?text=Check out this event: {{ event.title }}&url={{ request.build_absolute_uri }}" target="_blank" class="share-btn twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="mailto:?subject={{ event.title }}&body=Check out this event: {{ request.build_absolute_uri }}" class="share-btn email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    {% if related_events %}
+    <section class="related-events">
+        <h2>Related Events</h2>
+        <div class="related-events-grid">
+            {% for related_event in related_events %}
+            <div class="related-event-card">
+                <div class="event-date">
+                    <span class="month">{{ related_event.start_date|date:"M" }}</span>
+                    <span class="day">{{ related_event.start_date|date:"d" }}</span>
+                </div>
+                <div class="event-content">
+                    <h3>{{ related_event.title }}</h3>
+                    <div class="event-meta">
+                        <p class="event-time">
+                            <i class="far fa-clock"></i>
+                            {{ related_event.start_date|time }}
+                        </p>
+                        <p class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            {{ related_event.location }}
+                        </p>
+                    </div>
+                    <a href="{% url 'event-detail' related_event.pk %}" class="btn btn-details">View Details</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/event_detail.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'main/js/event_detail.js' %}"></script>
+{% endblock %}

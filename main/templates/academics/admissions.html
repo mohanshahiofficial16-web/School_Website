@@ -1,0 +1,56 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Application - Admissions - {{ school_info.name }}{% endblock %}
+
+
+
+{% block content %}
+<div class="admission-form-container">
+    <header class="form-header text-center">
+        <h1>Admissions Application Form</h1>
+        <p class="lead">
+            Please fill out the form below to submit your application.
+            All fields are required unless otherwise noted.
+        </p>
+    </header>
+
+    {% if messages %}
+        <div class="messages mb-4">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+                {% endif %}
+                {% if field.errors %}
+                    <div class="form-errors">
+                        {% for error in field.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary submit-btn mt-4">
+            Submit Application
+        </button>
+    </form>
+</div>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/academics.css' %}">
+{% endblock %}
+{% endblock %}

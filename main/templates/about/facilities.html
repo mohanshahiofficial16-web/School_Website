@@ -1,0 +1,78 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Facilities | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="facilities-page">
+    
+    <!-- Hero Section -->
+    <section class="facilities-hero">
+        <div class="hero-content">
+            <h1>Our Facilities</h1>
+            <p class="subtitle">Explore the resources and infrastructure at {{ school_info.name }}</p>
+        </div>
+    </section>
+
+    <!-- Facilities List -->
+    <section class="facilities-list">
+        <div class="container">
+            <h2>Available Facilities</h2>
+            <p class="section-description">We provide modern and comprehensive facilities to enhance learning and student life.</p>
+            
+            <div class="facilities-grid">
+                {% for facility in facilities %}
+                <div class="facility-card">
+                    {% if facility.image %}
+                    <div class="facility-image">
+                        <img src="{{ facility.image.url }}" alt="{{ facility.name }}">
+                    </div>
+                    {% endif %}
+                    <div class="facility-content">
+                        <h3>{{ facility.name }}</h3>
+                        <p>{{ facility.description|linebreaks }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No facilities available at the moment.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Facts / Highlights (Optional) -->
+    <section class="facilities-highlights">
+        <div class="container">
+            <h2>Highlights</h2>
+            <div class="highlight-cards">
+                <div class="highlight-card">
+                    <i class="fas fa-library"></i>
+                    <h3>Library</h3>
+                    <p>Well-stocked library with latest books and digital resources.</p>
+                </div>
+                <div class="highlight-card">
+                    <i class="fas fa-flask"></i>
+                    <h3>Science Labs</h3>
+                    <p>Modern labs for Physics, Chemistry, and Biology experiments.</p>
+                </div>
+                <div class="highlight-card">
+                    <i class="fas fa-futbol"></i>
+                    <h3>Sports Complex</h3>
+                    <p>Indoor and outdoor sports facilities for all students.</p>
+                </div>
+                <div class="highlight-card">
+                    <i class="fas fa-music"></i>
+                    <h3>Arts & Music</h3>
+                    <p>Dedicated spaces for music, art, and cultural activities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/facilities.css' %}">
+<script src="{% static 'main/js/facilities.js' %}"></script>
+{% endblock %}

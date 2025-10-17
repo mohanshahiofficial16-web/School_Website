@@ -1,0 +1,67 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{{ news.title }} | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<div class="messages-container">
+    <h1 class="messages-header">Contact Messages</h1>
+    
+    <div class="message-filters">
+        <a href="?filter=all" class="filter-btn {% if request.GET.filter == 'all' or not request.GET.filter %}active{% endif %}">All Messages</a>
+        <a href="?filter=unread" class="filter-btn {% if request.GET.filter == 'unread' %}active{% endif %}">Unread Only</a>
+    </div>
+    
+    <div class="messages-list">
+        {% for message in object_list %}
+        <div class="message-card {% if not message.is_read %}unread{% endif %}">
+            <div class="message-header">
+                <h3 class="message-subject">{{ message.subject }}</h3>
+                <span class="message-date">{{ message.date_sent|date:"M d, Y H:i" }}</span>
+            </div>
+            <div class="message-meta">
+                <span class="message-sender">{{ message.name }}</span>
+                <span class="message-email">{{ message.email }}</span>
+            </div>
+            <div class="message-content">
+                {{ message.message|linebreaks }}
+            </div>
+            <div class="message-actions">
+                <a href="{% url 'mark_as_read' message.id %}" class="action-btn read-btn">
+                    {% if message.is_read %}Mark as Unread{% else %}Mark as Read{% endif %}
+                </a>
+                <a href="{% url 'delete_message' message.id %}" class="action-btn delete-btn">Delete</a>
+                <a href="mailto:{{ message.email }}?subject=Re: {{ message.subject }}" class="action-btn reply-btn">Reply</a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-messages">No messages found.</div>
+        {% endfor %}
+    </div>
+    
+    {% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.filter %}&filter={{ request.GET.filter }}{% endif %}" class="page-link">Previous</a>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+        <a href="?page={{ num }}{% if request.GET.filter %}&filter={{ request.GET.filter }}{% endif %}" class="page-link {% if page_obj.number == num %}active{% endif %}">{{ num }}</a>
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.filter %}&filter={{ request.GET.filter }}{% endif %}" class="page-link">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/contact.css' %}">
+{% endblock %}
+
+
+{% endblock %}
+
+

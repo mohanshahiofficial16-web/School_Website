@@ -1,0 +1,106 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Curriculum | {{ school_info.name }}{% endblock %}
+
+
+{% block content %}
+<div class="curriculum-container">
+    <h1 class="curriculum-header">Curriculum Overview</h1>
+    
+    <div class="curriculum-intro">
+        <p>Our curriculum is designed to meet state and national standards while challenging students to reach their full potential.</p>
+    </div>
+    
+    <div class="grade-levels">
+        <h2>Grade Level Curriculum</h2>
+        
+        <div class="accordion">
+            <div class="accordion-item">
+                <button class="accordion-button">Elementary School (K-5)</button>
+                <div class="accordion-content">
+                    <h3>Core Subjects</h3>
+                    <ul>
+                        <li>English Language Arts</li>
+                        <li>Mathematics</li>
+                        <li>Science</li>
+                        <li>Social Studies</li>
+                    </ul>
+                    
+                    <h3>Special Programs</h3>
+                    <ul>
+                        <li>Art and Music</li>
+                        <li>Physical Education</li>
+                        <li>Technology Basics</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <button class="accordion-button">Middle School (6-8)</button>
+                <div class="accordion-content">
+                    <h3>Core Curriculum</h3>
+                    <ul>
+                        <li>Advanced English</li>
+                        <li>Pre-Algebra and Algebra</li>
+                        <li>Life and Physical Sciences</li>
+                        <li>World History and Geography</li>
+                    </ul>
+                    
+                    <h3>Electives</h3>
+                    <ul>
+                        <li>Foreign Languages</li>
+                        <li>Computer Science</li>
+                        <li>Performing Arts</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <button class="accordion-button">High School (9-12)</button>
+                <div class="accordion-content">
+                    <h3>College Prep Courses</h3>
+                    <ul>
+                        <li>AP and Honors Classes</li>
+                        <li>STEM Electives</li>
+                        <li>Advanced Literature</li>
+                        <li>Social Sciences</li>
+                    </ul>
+                    
+                    <h3>Graduation Requirements</h3>
+                    <ul>
+                        <li>4 years English</li>
+                        <li>4 years Mathematics</li>
+                        <li>3 years Science</li>
+                        <li>3 years Social Studies</li>
+                        <li>2 years Foreign Language</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="standards-section">
+        <h2>Educational Standards</h2>
+        <p>Our curriculum aligns with the following standards:</p>
+        <div class="standards-grid">
+            <div class="standard-card">
+                <h3>Common Core</h3>
+                <p>English and Mathematics standards</p>
+            </div>
+            <div class="standard-card">
+                <h3>NGSS</h3>
+                <p>Next Generation Science Standards</p>
+            </div>
+            <div class="standard-card">
+                <h3>State Requirements</h3>
+                <p>All local education mandates</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/academics.css' %}">
+{% endblock %}
+{% endblock %}

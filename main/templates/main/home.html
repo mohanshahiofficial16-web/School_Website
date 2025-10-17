@@ -1,0 +1,111 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Home | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="home-page">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to {{ school_info.name }}</h1>
+            <p class="motto">{{ school_info.motto }}</p>
+            <div class="hero-actions">
+                <a href="{% url 'about' %}" class="btn btn-primary">Learn About Us</a>
+                <a href="{% url 'contact' %}" class="btn btn-secondary">Contact School</a>
+            </div>
+        </div>
+        <!-- Hero image -->
+        <div class="hero-image">
+            {% if school_info.hero_image %}
+            <img src="{{ school_info.hero_image.url }}" alt="{{ school_info.name }} campus">
+            {% else %}
+            <img src="{% static 'main/images/school-building.jpg' %}" alt="{{ school_info.name }} campus">
+            {% endif %}
+        </div>
+
+    </section>
+
+    <!-- Announcements Section -->
+    <section class="announcements-section">
+        <h2 class="section-title">Latest Announcements</h2>
+        <div class="announcements-grid">
+            {% for announcement in announcements %}
+            <article class="announcement-card">
+                <div class="announcement-header">
+                    <h3>{{ announcement.title }}</h3>
+                    {% if announcement.important %}
+                    <span class="badge important">Important</span>
+                    {% endif %}
+                </div>
+                <p class="announcement-excerpt">{{ announcement.content|truncatewords:25 }}</p>
+                <div class="announcement-meta">
+                    <span class="date">{{ announcement.date_posted|date:"F j, Y" }}</span>
+                    <a href="{% url 'announcement-detail' announcement.pk %}" class="read-more">Read More</a>
+                </div>
+            </article>
+            {% empty %}
+            <p class="no-items">No announcements at this time.</p>
+            {% endfor %}
+        </div>
+        <a href="{% url 'announcements' %}" class="view-all">View All Announcements</a>
+    </section>
+
+    <!-- Upcoming Events Section -->
+    <section class="events-section">
+        <h2 class="section-title">Upcoming Events</h2>
+        <div class="events-list">
+            {% for event in upcoming_events %}
+            <div class="event-card">
+                <div class="event-date">
+                    <span class="month">{{ event.start_date|date:"M" }}</span>
+                    <span class="day">{{ event.start_date|date:"d" }}</span>
+                </div>
+                <div class="event-info">
+                    <h3>{{ event.title }}</h3>
+                    <p class="event-meta">
+                        <span class="time">{{ event.start_date|time }}</span>
+                        <span class="location">{{ event.location }}</span>
+                    </p>
+                    <a href="{% url 'event-detail' event.pk %}" class="event-details">Event Details</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="no-items">No upcoming events scheduled.</p>
+            {% endfor %}
+        </div>
+        <a href="{% url 'events' %}" class="view-all">View Full Calendar</a>
+    </section>
+
+    <!-- Quick Links Section -->
+    <section class="quick-links">
+        <h2 class="section-title">Quick Links</h2>
+        <div class="links-grid">
+            <a href="{% url 'staff-list' %}" class="link-card">
+                <div class="link-icon">
+                    <img src="{% static 'main/icons/staff.svg' %}" alt="Staff icon">
+                </div>
+                <h3>Our Staff</h3>
+            </a>
+            <a href="{% url 'academics' %}" class="link-card">
+                <div class="link-icon">
+                    <img src="{% static 'main/icons/graduation.svg' %}" alt="Academics icon">
+                </div>
+                <h3>Academics</h3>
+            </a>
+            <a href="{% url 'gallery' %}" class="link-card">
+                <div class="link-icon">
+                    <img src="{% static 'main/icons/photo.svg' %}" alt="Gallery icon">
+                </div>
+                <h3>Photo Gallery</h3>
+            </a>
+            <a href="{% url 'resources' %}" class="link-card">
+                <div class="link-icon">
+                    <img src="{% static 'main/icons/building.svg' %}" alt="Resources icon">
+                </div>
+                <h3>Resources</h3>
+            </a>
+        </div>
+    </section>
+</main>
+{% endblock %}

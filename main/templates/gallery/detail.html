@@ -1,0 +1,79 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{{ gallery.title }} | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="gallery-detail-page">
+    <section class="gallery-header">
+        <div class="container">
+            <h1>{{ gallery.title }}</h1>
+            {% if gallery.event %}
+            <p class="event-link">From: <a href="{% url 'event-detail' gallery.event.pk %}">{{ gallery.event.title }}</a></p>
+            {% endif %}
+            {% if gallery.description %}
+            <p class="gallery-description">{{ gallery.description }}</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="gallery-images">
+        <div class="container">
+            {% if gallery.images.all %}
+            <div class="image-grid">
+                {% for image in gallery.images.all %}
+                <div class="image-item">
+                    <a href="{{ image.image.url }}" data-lightbox="gallery" data-title="{{ image.caption }}">
+                        <img src="{{ image.image.url }}" alt="{{ image.caption|default:gallery.title }}">
+                        {% if image.caption %}
+                        <div class="image-caption">
+                            <p>{{ image.caption }}</p>
+                        </div>
+                        {% endif %}
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="no-images">
+                <p>No images in this gallery yet.</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    {% if related_galleries %}
+    <section class="related-galleries">
+        <div class="container">
+            <h2>More Galleries</h2>
+            <div class="related-grid">
+                {% for related in related_galleries %}
+                <div class="related-card">
+                    <a href="{% url 'gallery-detail' related.pk %}">
+                        <img src="{{ related.cover_image.url }}" alt="{{ related.title }}">
+                        <h3>{{ related.title }}</h3>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/lightbox.min.css' %}">
+<link rel="stylesheet" href="{% static 'main/css/gallery.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'main/js/lightbox.min.js' %}"></script>
+<script>
+    lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true,
+        'albumLabel': 'Image %1 of %2'
+    });
+</script>
+{% endblock %}

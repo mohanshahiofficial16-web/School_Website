@@ -1,0 +1,83 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Photo Gallery | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="gallery-page">
+    <section class="gallery-hero">
+        <div class="hero-content">
+            <h1>School Gallery</h1>
+            <p>Capturing memories at {{ school_info.name }}</p>
+        </div>
+    </section>
+
+    <section class="gallery-content">
+        <div class="container">
+            {% if galleries %}
+            <div class="gallery-grid">
+                {% for gallery in galleries %}
+                <div class="gallery-card">
+                    <a href="{% url 'gallery-detail' gallery.pk %}">
+                        <div class="gallery-cover">
+                            <img src="{{ gallery.cover_image.url }}" alt="{{ gallery.title }}">
+                            <div class="gallery-overlay">
+                                <span class="photo-count">
+                                    <i class="fas fa-camera"></i> {{ gallery.images.count }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="gallery-info">
+                            <h3>{{ gallery.title }}</h3>
+                            {% if gallery.event %}
+                            <p class="event-link">From: {{ gallery.event.title }}</p>
+                            {% endif %}
+                            {% if gallery.description %}
+                            <p class="gallery-description">{{ gallery.description|truncatewords:15 }}</p>
+                            {% endif %}
+                            <span class="gallery-date">{{ gallery.date_created|date:"F Y" }}</span>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if is_paginated %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-link">
+                    &laquo; Previous
+                </a>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <span class="current-page">{{ num }}</span>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}" class="page-link">
+                    {{ num }}
+                </a>
+                {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-link">
+                    Next &raquo;
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            {% else %}
+            <div class="no-galleries">
+                <p>No photo galleries available yet. Check back soon!</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/gallery.css' %}">
+{% endblock %}

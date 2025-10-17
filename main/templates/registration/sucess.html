@@ -1,0 +1,13 @@
+{% extends "main/base.html" %}
+{% block title %}Registration Successful{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="header">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h2>Registration Successful!</h2>
+        <p>Your student account has been created successfully.</p>
+        <a href="{% url 'login' %}" class="btn-primary">Go to Login</a>
+    </div>
+</div>
+{% endblock %}

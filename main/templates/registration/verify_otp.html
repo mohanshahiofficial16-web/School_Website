@@ -1,0 +1,63 @@
+<!-- templates/registration/verify_otp.html -->
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'main/css/auth.css' %}">
+
+{% endblock %}
+
+{% block extra_js %}
+<script defer src="{% static 'main/js/auth.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Verify Email Address</h3>
+                </div>
+                <div class="card-body">
+                    <p>We've sent a 6-digit verification code to <strong>{{ email }}</strong>. Please check your email
+                        and enter the code below.</p>
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="otp_code" class="form-label">Verification Code</label>
+                            <input type="text" class="form-control" id="otp_code" name="otp_code"
+                                placeholder="Enter 6-digit code" required maxlength="6" pattern="\d{6}">
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" name="verify_otp" class="btn btn-primary">Verify & Complete
+                                Registration</button>
+                        </div>
+                    </form>
+
+                    <hr>
+
+                    <form method="post" action="{% url 'resend_otp' %}">
+                        {% csrf_token %}
+                        <div class="text-center">
+                            <p>Didn't receive the code? <button type="submit" class="btn btn-link p-0">Resend
+                                    OTP</button></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

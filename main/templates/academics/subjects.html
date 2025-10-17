@@ -1,0 +1,48 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Subjects | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<div class="subject-detail-container">
+    <div class="subject-header">
+        <span class="subject-code">{{ subject.code }}</span>
+        <h1>{{ subject.name }}</h1>
+    </div>
+    
+    <div class="subject-meta">
+        {% if subject.teacher %}
+        <div class="meta-item">
+            <span class="meta-label">Teacher:</span>
+            <a href="{% url 'staff-detail' subject.teacher.pk %}" class="teacher-link">{{ subject.teacher }}</a>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="subject-description">
+        <h2>Description</h2>
+        <p>{{ subject.description|linebreaks }}</p>
+    </div>
+    
+    <div class="subject-resources">
+        <h2>Resources</h2>
+        <div class="resource-links">
+            <a href="#" class="resource-link">Syllabus</a>
+            <a href="#" class="resource-link">Textbooks</a>
+            <a href="#" class="resource-link">Assignments</a>
+        </div>
+    </div>
+    
+    <div class="back-link">
+        <a href="{% url 'subjects' %}" class="back-btn">← Back to All Subjects</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/academics.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'main/js/subjects.js' %}"></script>
+{% endblock %}

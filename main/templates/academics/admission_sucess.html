@@ -1,0 +1,44 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Admission Successful | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<main class="admission-success-page">
+
+    <!-- Hero Section -->
+    <section class="success-hero">
+        <div class="hero-content">
+            <h1>Congratulations!</h1>
+            <p class="subtitle">Your admission request has been successfully submitted.</p>
+        </div>
+    </section>
+
+    <!-- Success Message -->
+    <section class="success-message">
+        <div class="container">
+            <div class="message-card">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h2>Thank you for applying to {{ school_info.name }}.</h2>
+                <p>Our admissions team will review your application and contact you shortly via email or phone.</p>
+                <p><strong>Next Steps:</strong></p>
+                <ul>
+                    <li>Check your email regularly for updates.</li>
+                    <li>Keep your documents ready for verification.</li>
+                    <li>Contact our admissions office for any queries.</li>
+                </ul>
+                <div class="actions">
+                    <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+                    <a href="{% url 'admission-form' %}" class="btn btn-secondary">Submit Another Application</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/admission_success.css' %}">
+<script src="{% static 'main/js/admission_success.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Academics | {{ school_info.name }}{% endblock %}
+
+{% block content %}
+<div class="academics-container">
+    <h1 class="academics-header">Academic Programs</h1>
+
+    <div class="academics-intro">
+        <p>{{ school_info.name }} offers a comprehensive academic program designed to prepare students for success in higher
+            education and beyond.</p>
+    </div>
+
+    <!-- Dynamic Class Levels -->
+    <div class="academic-levels">
+        {% for cls in classes %}
+        <div class="level-card">
+            <h2>{{ cls.name }}</h2>
+            <p>Academic Year: {{ cls.academic_year }}</p>
+            {% if cls.class_teacher %}
+                <p><strong>Class Teacher:</strong> {{ cls.class_teacher.full_name }}</p>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>No classes available.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Subjects -->
+    <div class="academic-features">
+        <h2>Subjects Offered</h2>
+        <ul class="features-list">
+            {% for subject in subjects %}
+                <li>
+                    <strong>{{ subject.name }}</strong> ({{ subject.code }})
+                    {% if subject.teacher %} - Taught by {{ subject.teacher.full_name }}{% endif %}
+                </li>
+            {% empty %}
+                <li>No subjects available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Resources -->
+    <div class="quick-links">
+        <h2>Academic Resources</h2>
+        <div class="links-grid">
+            <a href="{% url 'curriculum' %}" class="resource-link">Curriculum Overview</a>
+            <a href="{% url 'subjects' %}" class="resource-link">Subjects Offered</a>
+            <a href="#" class="resource-link">Academic Calendar</a>
+            <a href="#" class="resource-link">Grading Policy</a>
+            <a href="#" class="resource-link">Homework Guidelines</a>
+            <a href="#" class="resource-link">Testing Information</a>
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/academics.css' %}">
+{% endblock %}
+{% endblock %}

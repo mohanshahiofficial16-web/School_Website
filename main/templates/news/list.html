@@ -1,0 +1,49 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Photo Gallery | {{ school_info.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/news.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="news-container">
+    <h1 class="news-header">Latest News</h1>
+    
+    {% for news in object_list %}
+    <article class="news-card">
+        {% if news.featured_image %}
+        <img src="{{ news.featured_image.url }}" alt="{{ news.title }}" class="news-image">
+        {% endif %}
+        <div class="news-content">
+            <h2 class="news-title">{{ news.title }}</h2>
+            <div class="news-meta">
+                <span class="news-date">{{ news.date_posted|date:"F d, Y" }}</span>
+                <span class="news-author">by {{ news.author }}</span>
+            </div>
+            <p class="news-excerpt">{{ news.content|truncatewords:30 }}</p>
+            <a href="{% url 'news-detail' news.pk %}" class="news-read-more">Read More</a>
+        </div>
+    </article>
+    {% empty %}
+    <div class="news-empty">No news articles available.</div>
+    {% endfor %}
+    
+    {% if is_paginated %}
+    <div class="news-pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-link">Previous</a>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+        <a href="?page={{ num }}" class="pagination-link {% if page_obj.number == num %}active{% endif %}">{{ num }}</a>
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination-link">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
