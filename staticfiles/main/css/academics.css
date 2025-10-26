@@ -1,0 +1,470 @@
+/* Academics Main Page Styles */
+.academics-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.academics-header {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+}
+
+.academics-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #34495e;
+}
+
+.academic-levels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.level-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.level-card:hover {
+    transform: translateY(-5px);
+}
+
+.level-card h2 {
+    color: #3498db;
+    margin-top: 0;
+}
+
+.level-card p {
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+}
+
+.level-link {
+    display: inline-block;
+    color: #3498db;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.level-link:hover {
+    color: #2980b9;
+}
+
+.academic-features {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 3rem;
+}
+
+.academic-features h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.features-list {
+    columns: 2;
+    list-style-type: none;
+    padding: 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.features-list li {
+    padding: 0.5rem 0;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.features-list li:before {
+    content: "✓";
+    color: #2ecc71;
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+.quick-links {
+    margin-bottom: 2rem;
+}
+
+.quick-links h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.resource-link {
+    background: #3498db;
+    color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.resource-link:hover {
+    background: #2980b9;
+}
+
+/* Curriculum Page Styles */
+.curriculum-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.curriculum-header {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.curriculum-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #34495e;
+}
+
+.grade-levels h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.accordion {
+    margin-bottom: 3rem;
+}
+
+.accordion-item {
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.accordion-button {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: #3498db;
+    color: white;
+    border: none;
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.accordion-button:hover {
+    background: #2980b9;
+}
+
+.accordion-button:after {
+    content: "+";
+    float: right;
+    font-weight: bold;
+}
+
+.accordion-button.active:after {
+    content: "-";
+}
+
+.accordion-content {
+    padding: 0 1.5rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: #fff;
+}
+
+.accordion-content h3 {
+    color: #3498db;
+    margin-top: 1.5rem;
+}
+
+.accordion-content ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.standards-section {
+    margin-top: 3rem;
+}
+
+.standards-section h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.standards-section p {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #7f8c8d;
+}
+
+.standards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.standard-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.standard-card h3 {
+    color: #3498db;
+    margin-top: 0;
+}
+
+/* Subjects Page Styles */
+.subjects-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.subjects-header {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+}
+
+.subjects-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #34495e;
+}
+
+.subject-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.category-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.category-card h2 {
+    color: #3498db;
+    margin-top: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.subject-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 1rem 0 0;
+}
+
+.subject-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.subject-list li:last-child {
+    border-bottom: none;
+}
+
+.ap-courses {
+    margin-top: 3rem;
+}
+
+.ap-courses h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+}
+
+.ap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.ap-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.ap-card h3 {
+    color: #e74c3c;
+    margin-top: 0;
+}
+
+.grade-level {
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    margin-top: 0.5rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .features-list {
+        columns: 1;
+    }
+    
+    .academics-header, .curriculum-header, .subjects-header {
+        font-size: 2rem;
+    }
+    
+    .academic-levels, .subject-categories {
+        grid-template-columns: 1fr;
+    }
+}
+/* ========================================= */
+/* Manual Form Page Styles                   */
+/* ========================================= */
+
+/* Form Container */
+.admission-form-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-header h1 {
+    font-size: 2.2rem;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.form-header .lead {
+    font-size: 1rem;
+    color: #7f8c8d;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+/* Form Controls (Inputs, Textareas) */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    font-size: 1rem;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.form-group input[type="file"] {
+    padding: 3px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Help Text and Errors */
+.form-text {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 5px;
+}
+
+.form-errors p {
+    font-size: 0.9rem;
+    color: #e74c3c;
+    margin-top: 5px;
+}
+
+/* Submit Button */
+.submit-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #27ae60;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .admission-form-container {
+        padding: 20px;
+        margin: 20px 10px;
+    }
+    .form-header h1 {
+        font-size: 1.8rem;
+    }
+}
