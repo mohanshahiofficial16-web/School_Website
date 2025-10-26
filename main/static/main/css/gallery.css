@@ -4,7 +4,7 @@
 }
 
 .gallery-hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../images/gallery-hero.jpg');
+
     background-size: cover;
     background-position: center;
     color: white;
